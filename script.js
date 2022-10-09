@@ -1,14 +1,21 @@
+const episodesSearch = document.getElementById("episodes-search");
+
+const allEpisodes = getAllEpisodes();
+const allCount = allEpisodes.length;
+const searchCount = document.getElementById("search-count");
+searchCount.innerHTML = `Displaying ${allCount} episodes`;
 //You can edit ALL of the code here
 function setup() {
-  const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+
+  episodesSearch.addEventListener("keyup", searchEpisodes);
 }
 
 function makePageForEpisodes(episodeList) {
-  // const rootElem = document.getElementById("root");
-  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-
+  // const searchCount = document.createElement("p");
+  // searchCount.className = "search-count";
   const allEpisodesContainer = document.getElementById("episodes");
+  allEpisodesContainer.innerHTML = "";
 
   episodeList.forEach((episode) => {
     const episodeContainer = document.createElement("div");
@@ -51,6 +58,26 @@ function makePageForEpisodes(episodeList) {
     episodeContainer.appendChild(image);
     episodeContainer.appendChild(summary);
   });
+}
+function makeCaseInsensitive(string) {
+  return string.toLowerCase();
+}
+function searchEpisodes(event) {
+  const searchTerm = makeCaseInsensitive(event.target.value);
+
+  const filteredEpisodes = allEpisodes.filter((episode) => {
+    const episodeName = makeCaseInsensitive(episode.name);
+    const episodeSummary = makeCaseInsensitive(episode.summary);
+
+    return (
+      episodeSummary.includes(searchTerm) || episodeName.includes(searchTerm)
+    );
+  });
+  const filteredCount = filteredEpisodes.length;
+
+  const countString = `Displaying ${filteredCount} / ${allCount} episode(s)`;
+  searchCount.innerText = countString;
+  makePageForEpisodes(filteredEpisodes);
 }
 
 window.onload = setup;

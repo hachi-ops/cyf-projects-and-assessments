@@ -17,3 +17,14 @@
   border: 1px solid green;
   height: 70px;
 }
+
+#episodes-search {
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+  height: 20px;
+}
+
+#search-count {
+  text-align: center;
+}
