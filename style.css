@@ -1,1 +1,19 @@
+#episodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
 
+.episode-container {
+  max-width: 250px;
+}
+
+.episode-code {
+  border: 1px solid red;
+}
+
+.episode-name {
+  border: 1px solid green;
+  height: 70px;
+}
