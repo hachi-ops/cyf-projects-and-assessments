@@ -1,23 +1,21 @@
 const episodesSearch = document.getElementById("episodes-search");
-
-const allEpisodes = getAllEpisodes();
-const allCount = allEpisodes.length;
 const searchCount = document.getElementById("search-count");
 searchCount.className = "search-count";
-searchCount.innerHTML = `Displaying ${allCount} episodes`;
 const selectMenu = document.getElementById("select-input");
 
 let currentEpisodes = [];
 
 //You can edit ALL of the code here
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  currentEpisodes = allEpisodes;
-  makePageForEpisodes(allEpisodes);
-  makeSelectMenuForEpisodes(currentEpisodes);
+  sendRequest(82).then((data) => {
+    // console.log(data);
+    currentEpisodes = data;
+    makePageForEpisodes(currentEpisodes);
+    makeSelectMenuForEpisodes(currentEpisodes);
 
-  episodesSearch.addEventListener("keyup", searchEpisodes);
-  selectMenu.addEventListener("change", onChange);
+    episodesSearch.addEventListener("keyup", searchEpisodes);
+    selectMenu.addEventListener("change", onChange);
+  });
 }
 
 function padTheNumber(num) {
@@ -27,6 +25,7 @@ function padTheNumber(num) {
 function formatEpisodeCode(season, number) {
   return `S${padTheNumber(season)}E${padTheNumber(number)}`;
 }
+
 function makeSelectMenuForEpisodes(episodeList) {
   const showAll = document.createElement("option");
   showAll.innerText = "Show all episodes";
@@ -46,6 +45,7 @@ function makeSelectMenuForEpisodes(episodeList) {
     selectMenu.appendChild(listOption);
   });
 }
+
 function makePageForEpisodes(episodeList) {
   const allEpisodesContainer = document.getElementById("episodes");
   allEpisodesContainer.innerHTML = "";
@@ -84,13 +84,15 @@ function makePageForEpisodes(episodeList) {
     episodeContainer.appendChild(summary);
   });
 }
+
 function makeCaseInsensitive(string) {
   return string.toLowerCase();
 }
+
 function searchEpisodes(event) {
   const searchTerm = makeCaseInsensitive(event.target.value);
 
-  const filteredEpisodes = allEpisodes.filter((episode) => {
+  const filteredEpisodes = currentEpisodes.filter((episode) => {
     const episodeName = makeCaseInsensitive(episode.name);
     const episodeSummary = makeCaseInsensitive(episode.summary);
 
@@ -98,9 +100,10 @@ function searchEpisodes(event) {
       episodeSummary.includes(searchTerm) || episodeName.includes(searchTerm)
     );
   });
-  const filteredCount = filteredEpisodes.length;
 
-  const countString = `Displaying ${filteredCount} / ${allCount} episode(s)`;
+  const filteredCount = filteredEpisodes.length;
+  const currentCount = currentEpisodes.length;
+  const countString = `Displaying ${filteredCount} / ${currentCount} episode(s)`;
   searchCount.innerText = countString;
   makePageForEpisodes(filteredEpisodes);
 }
@@ -116,6 +119,19 @@ function onChange(event) {
     });
     makePageForEpisodes(filteredEpisodes);
   }
+}
+
+function sendRequest(showId) {
+  const urlForTherequest = `https://api.tvmaze.com/shows/${showId}/episodes`;
+
+  return fetch(urlForTherequest)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      makePageForEpisodes(data);
+      return data;
+    })
+    .catch((e) => console.log(e));
 }
 
 window.onload = setup;

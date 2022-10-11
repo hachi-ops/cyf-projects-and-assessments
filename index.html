@@ -11,9 +11,13 @@
   <body>
     <div id="root">
       <p id="search-count"></p>
-      <input type="text" id="episodes-search" placeholder="search..." />
-      <div>select input below</div>
-      <select id="select-input"></select>
+      <div class="inputs">
+        <p>Enter a search term</p>
+        <input type="text" id="episodes-search" placeholder="search..." />
+
+        <select id="select-input"></select>
+      </div>
+
       <div id="episodes"></div>
       <div>
         <p>
@@ -31,7 +35,7 @@
     </div>
 
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+    <!-- <script src="episodes.js"></script> -->
 
     <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>
