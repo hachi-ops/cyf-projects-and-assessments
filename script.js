@@ -3,17 +3,50 @@ const episodesSearch = document.getElementById("episodes-search");
 const allEpisodes = getAllEpisodes();
 const allCount = allEpisodes.length;
 const searchCount = document.getElementById("search-count");
+searchCount.className = "search-count";
 searchCount.innerHTML = `Displaying ${allCount} episodes`;
+const selectMenu = document.getElementById("select-input");
+
+let currentEpisodes = [];
+
 //You can edit ALL of the code here
 function setup() {
+  const allEpisodes = getAllEpisodes();
+  currentEpisodes = allEpisodes;
   makePageForEpisodes(allEpisodes);
+  makeSelectMenuForEpisodes(currentEpisodes);
 
   episodesSearch.addEventListener("keyup", searchEpisodes);
+  selectMenu.addEventListener("change", onChange);
 }
 
+function padTheNumber(num) {
+  return num.toString().padStart(2, "0");
+}
+
+function formatEpisodeCode(season, number) {
+  return `S${padTheNumber(season)}E${padTheNumber(number)}`;
+}
+function makeSelectMenuForEpisodes(episodeList) {
+  const showAll = document.createElement("option");
+  showAll.innerText = "Show all episodes";
+  showAll.value = "Show all";
+  selectMenu.appendChild(showAll);
+
+  episodeList.forEach((episode) => {
+    const listOption = document.createElement("option");
+    const episodeString = `${formatEpisodeCode(
+      episode.season,
+      episode.number
+    )} - ${episode.name}`;
+
+    listOption.innerText = episodeString;
+
+    listOption.value = episode.id;
+    selectMenu.appendChild(listOption);
+  });
+}
 function makePageForEpisodes(episodeList) {
-  // const searchCount = document.createElement("p");
-  // searchCount.className = "search-count";
   const allEpisodesContainer = document.getElementById("episodes");
   allEpisodesContainer.innerHTML = "";
 
@@ -27,14 +60,6 @@ function makePageForEpisodes(episodeList) {
 
     const episodeCode = document.createElement("p");
     episodeCode.className = "episode-code";
-
-    function padTheNumber(num) {
-      return num.toString().padStart(2, "0");
-    }
-
-    function formatEpisodeCode(season, number) {
-      return `S${padTheNumber(season)}E${padTheNumber(number)}`;
-    }
 
     episodeCode.innerText = `${formatEpisodeCode(
       episode.season,
@@ -78,6 +103,19 @@ function searchEpisodes(event) {
   const countString = `Displaying ${filteredCount} / ${allCount} episode(s)`;
   searchCount.innerText = countString;
   makePageForEpisodes(filteredEpisodes);
+}
+
+function onChange(event) {
+  const episodeId = event.target.value;
+
+  if (episodeId === "Show all") {
+    makePageForEpisodes(currentEpisodes);
+  } else {
+    const filteredEpisodes = currentEpisodes.filter((e) => {
+      return e.id === Number(episodeId);
+    });
+    makePageForEpisodes(filteredEpisodes);
+  }
 }
 
 window.onload = setup;
