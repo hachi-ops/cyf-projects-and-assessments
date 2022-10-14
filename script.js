@@ -1,24 +1,43 @@
 const episodesSearch = document.getElementById("episodes-search");
 const searchCount = document.getElementById("search-count");
-searchCount.className = "search-count";
 const selectMenu = document.getElementById("select-input");
 const showSelect = document.getElementById("select-show");
+const showList = document.getElementById("show-list");
+// const resetPage = document.getElementById("reset-page");
+
+searchCount.className = "search-count";
 
 let currentEpisodes = [];
+
+// // resetPage.addEventListener("click", () => {
+// //   console.log("clicked reset");
+// //   setup();
+// // });
+
+// resetPage.addEventListener("click", () => {
+//   resetPage();
+// });
+
+// function reset() {
+//   //do stuf to reset page
+//   return null;
+// }
+
+episodesSearch.addEventListener("keyup", searchEpisodes);
+selectMenu.addEventListener("change", onChange);
+showSelect.addEventListener("change", onChangeShow);
 
 //You can edit ALL of the code here
 function setup() {
   const allShows = getAllShows();
   makeSelectMenuForShows(allShows);
+  makePageForShows(allShows);
+
   sendRequest(82).then((data) => {
     // console.log(data);
     currentEpisodes = data;
     makePageForEpisodes(currentEpisodes);
     makeSelectMenuForEpisodes(currentEpisodes);
-
-    episodesSearch.addEventListener("keyup", searchEpisodes);
-    selectMenu.addEventListener("change", onChange);
-    showSelect.addEventListener("change", onChangeShow);
   });
 }
 
@@ -105,7 +124,7 @@ function makePageForEpisodes(episodeList) {
     image.alt = "episode image";
     image.className = "episode-image";
 
-    summary.className = "summary";
+    summary.className = "episode-summary";
     summary.innerHTML = episode.summary;
 
     allEpisodesContainer.appendChild(episodeContainer);
@@ -119,6 +138,46 @@ function makePageForEpisodes(episodeList) {
 
 function makeCaseInsensitive(string) {
   return string.toLowerCase();
+}
+
+function makePageForShows(shows) {
+  console.log(shows);
+  shows.forEach((show) => {
+    const showElement = document.createElement("div");
+    const heading = document.createElement("h3");
+    const summary = document.createElement("p");
+    const image = document.createElement("img");
+
+    heading.innerText = `${show.name} - Runtime:${show.runtime}`;
+
+    summary.innerHTML = show.summary;
+
+    image.src = show.image.medium;
+
+    image.setAttribute = "alt";
+    image.alt = "show image";
+    image.className = "show-image";
+    showElement.className = "show";
+
+    showElement.appendChild(heading);
+    showElement.appendChild(summary);
+    showElement.appendChild(image);
+    showList.appendChild(showElement);
+
+    showElement.addEventListener("click", () => {
+      const showId = show.id;
+      console.log(`The show id is: ${show.id}`);
+
+      sendRequest(showId).then((data) => {
+        console.log(data);
+        currentEpisodes = data;
+        showList.style.display = "none";
+        makePageForEpisodes(currentEpisodes);
+        makeSelectMenuForEpisodes(currentEpisodes);
+      });
+    });
+  });
+  // return shows;
 }
 
 function searchEpisodes(event) {
