@@ -19,7 +19,8 @@ body {
   justify-content: center;
 }
 
-.episode-container {
+.episode-container,
+.show {
   max-width: 250px;
 
   align-items: center;
@@ -37,7 +38,8 @@ body {
   border-radius: 10px;
 }
 
-.episode-image {
+.episode-image,
+.show-image {
   display: block;
   width: 100%;
   height: auto;
@@ -45,21 +47,30 @@ body {
   box-shadow: rgba(0, 0, 0, 0.09) 0px 16px 8px,
     rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
+
 .episode-code {
-  border: 1px solid red;
+  /* border: 1px solid red; */
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .episode-name {
-  border: 1px solid green;
+  /* border: 1px solid green; */
   height: 70px;
+  line-height: 26px;
+  font-size: 22px;
 }
 
+.episode-summary {
+  line-height: 28px;
+}
 #search-count {
   text-align: center;
 }
 
 #episodes-search,
-#select-input {
+#select-input,
+#select-show {
   width: 40%;
   display: block;
   /* margin: 20px auto; */
