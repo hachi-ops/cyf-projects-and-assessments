@@ -33,12 +33,12 @@ function setup() {
   makeSelectMenuForShows(allShows);
   makePageForShows(allShows);
 
-  sendRequest(82).then((data) => {
-    // console.log(data);
-    currentEpisodes = data;
-    makePageForEpisodes(currentEpisodes);
-    makeSelectMenuForEpisodes(currentEpisodes);
-  });
+  // sendRequest(82).then((data) => {
+  //   // console.log(data);
+  //   currentEpisodes = data;
+  //   makePageForEpisodes(currentEpisodes);
+  //   makeSelectMenuForEpisodes(currentEpisodes);
+  // });
 }
 
 function makeSelectMenuForShows(shows) {
@@ -144,11 +144,12 @@ function makePageForShows(shows) {
   console.log(shows);
   shows.forEach((show) => {
     const showElement = document.createElement("div");
+
     const heading = document.createElement("h3");
     const summary = document.createElement("p");
     const image = document.createElement("img");
 
-    heading.innerText = `${show.name} - Runtime:${show.runtime}`;
+    heading.innerText = `${show.name} - Runtime:${show.runtime} - status:${show.status}- genres${show.genres}`;
 
     summary.innerHTML = show.summary;
 
@@ -160,8 +161,8 @@ function makePageForShows(shows) {
     showElement.className = "show";
 
     showElement.appendChild(heading);
-    showElement.appendChild(summary);
     showElement.appendChild(image);
+    showElement.appendChild(summary);
     showList.appendChild(showElement);
 
     showElement.addEventListener("click", () => {

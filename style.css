@@ -12,8 +12,10 @@ body {
   font-family: "Proza Libre", "League Spartan", sans-serif;
 }
 
-#episodes {
+#episodes,
+#show-list {
   display: flex;
+
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
@@ -21,11 +23,10 @@ body {
 
 .episode-container,
 .show {
-  max-width: 250px;
-
-  align-items: center;
+  display: flex;
+  gap: 20px;
   width: 90%;
-  max-width: 400px;
+
   margin: 20px auto;
   padding: 20px;
   background-color: antiquewhite;
@@ -41,7 +42,7 @@ body {
 .episode-image,
 .show-image {
   display: block;
-  width: 100%;
+  width: 50%;
   height: auto;
   margin: auto;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 16px 8px,
