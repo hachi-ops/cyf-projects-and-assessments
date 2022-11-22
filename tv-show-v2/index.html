@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Show Project | Helen (hachi-ops)</title>
+    <link href="style.css" rel="stylesheet" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <div id="root">
+      <div id="reset-page">Reset page</div>
+      <select id="select-show"></select>
+      <p id="search-count"></p>
+      <div class="inputs">
+        <p>Enter a search term</p>
+        <input type="text" id="episodes-search" placeholder="search..." />
+
+        <select id="select-input"></select>
+      </div>
+      <div id="show-list"></div>
+      <div id="episodes"></div>
+      <div>
+        <p>
+          This content is from
+          <a href="https://www.tvmaze.com/" target="_blank"
+            >https://www.tvmaze.com/ </a
+          >specifically:<a
+            href=" https://api.tvmaze.com/shows/82/episodes"
+            target="_blank"
+          >
+            https://api.tvmaze.com/shows/82/episodes</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+    <!-- <script src="episodes.js"></script> -->
+    <script src="shows.js"></script>
+    <!-- Loads YOUR javascript code -->
+    <script src="script.js"></script>
+  </body>
+</html>
